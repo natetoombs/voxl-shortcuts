@@ -1,0 +1,29 @@
+#####--.ROSRC--#####
+# Clear environment variables
+unset ROS_IP
+unset ROS_MASTER_URI
+unset ROS_WORKSPACE
+unset ROS_PACKAGE_PATH
+unset ROS_HOSTNAME
+
+###-----ROS-Kinetic-----###
+source /opt/ros/kinetic/setup.bash
+
+###---------ROS_IP---------###
+#Find IP Address (on WIFI)
+NETWORK_INTERFACE=wlan0
+#on Ethernet
+#NETWORK_INTERFACE=eno1
+
+IP=$(ip -f inet addr show $NETWORK_INTERFACE | grep -Po 'inet \K[\d.]+')
+export ROS_IP="$IP"
+
+###-----ROS_MASTER_URI-----###
+#Local
+export ROS_MASTER_URI=http://localhost:11311
+
+###-----Workspaces-----###
+source ~/yoctohome/mavros_test/catkin_ws/devel/setup.bash
+
+###-----PX4 ID-----###
+export PX4_SYS_ID=1

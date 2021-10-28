@@ -1,0 +1,13 @@
+alias dock="voxl-docker -i roskinetic-xenial:v1.0"
+
+alias px4-reboot="voxl-px4-shell reboot"
+
+alias qvio-restart="systemctl restart voxl-qvio-server"
+
+alias wifi-station="voxl-wifi station Iribe_DroneLab IribeMRC2019 && reboot"
+
+alias wifi-softap="voxl-wifi softap group3 && reboot"
+
+alias set-date='DATE=$(more ~/.date) && date --set="$DATE"'
+
+alias get-date="sed -i '1d' ~/.date && date >> ~/.date"
