@@ -6,7 +6,8 @@ alias qvio-restart="systemctl restart voxl-qvio-server"
 
 alias wifi-station="voxl-wifi station Iribe_DroneLab IribeMRC2019 && reboot"
 
-alias wifi-softap="voxl-wifi softap group3 && reboot"
+# CHOOSE A SOFTAP HOTSPOT NAME AND INSERT HERE FOR SSID
+alias wifi-softap="voxl-wifi softap <SSID> && reboot"
 
 alias set-date='DATE=$(more ~/.date) && date --set="$DATE"'
 
