@@ -1,0 +1,36 @@
+#####--.ROSRC--#####
+# Put this file in your home folder and add
+# the following line (uncommented) to your .bashrc:
+# source ~/.rosrc
+
+# Clear environment variables
+unset ROS_IP
+unset ROS_MASTER_URI
+unset ROS_WORKSPACE
+unset ROS_PACKAGE_PATH
+unset ROS_HOSTNAME
+
+#ROS-Distro #####-----ADD DISTRO HERE-----#####
+source /opt/ros/<your-distro>/setup.zsh
+
+###---------ROS_IP---------###
+#Find IP Address (on WIFI) #####-----ADD NETWORK INTERFACE HERE-----#####
+NETWORK_INTERFACE=<your-network-interface>
+#on Ethernet
+#NETWORK_INTERFACE=eno1
+
+IP=$(ip -f inet addr show $NETWORK_INTERFACE | grep -Po 'inet \K[\d.]+')
+export ROS_IP="$IP"
+
+###-----ROS_MASTER_URI-----###
+#Local
+export ROS_MASTER_URI=http://localhost:11311
+
+
+# VOXL IP - 192.168.78.xxx #####-----ADD DRONE IP ADDRESS HERE-----#####
+export ROS_MASTER_URI=http://<drone-ip>:11311
+# VOXL SoftAP IP - 192.168.8.1
+#export ROS_MASTER_URI=http://192.168.8.1:11311
+
+#Workspaces #####-----SOURCE YOUR COMPUTER WORKSPACES HERE-----#####
+source /<your>/<path>/<to>/<workspace>/devel/setup.bash

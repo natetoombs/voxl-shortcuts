@@ -1,6 +1,6 @@
 # voxl-shortcuts
 
-These files help make life easier for using the ENAE788M drones.
+These files help make life easier for using the ENAE788M drones. In summary, with these files you won't have to manually set the ROS_IP on your drone or on your computer. All of the important things to source are gathered into a single file; on the drone, you source that file when in the docker image, and on your computer, you can have it source automatically. There are aliases (shortcuts) to several key commands, such as entering the docker image and switching between `station` and `softap` modes. Let me know if you have any questions/additions!
 
 ## Drone Instructions
 First, add the files (`.aliases` and `.dockrc`) to the home in yocto.
@@ -26,9 +26,19 @@ The VOXL board doesn't have a way to remember the date and time upon rebooting; 
 A solution was to create a file in the home (`~/.`) that would store the date when connected to the internet, then reading from that file to set the system date when in SOFTAP mode. To do this, you need a `.date` file in the home. Then, when connected to the internet, run `get-date` to save the current date to the file. Then, when in SOFTAP mode, run `set-date`. This solution might not be much better than just manually setting the date (`date -s "YYYY-MM-DD HH-MM-SS`).
 
 ## Computer Instructions
-Just as the drone can automatically update the `ROS_IP`, so can your computer. The attached file `.rosrc` is what I use to:
+Just as the drone can automatically update the `ROS_IP`, so can your computer. Put the attached file `.rosrc` in your home folder and source it in your `.bashrc`. I use the file to:
 1. source ROS 
 2. set the `ROS_IP` to the computer IP address
 3. set the `ROS_MASTER_URI` to either the `localhost` or to the drone IP address
 4. source the ROS workspaces on the computer. 
+
 For this class, only steps 1-3 are important, unless you are running code from your computer; then you need step 4 as well.
+To use the `.rosrc`, you will need to add some of your computer information. You will need to add your ROS distribution (probably melodic or kinetic), your network interface, your drone's ip address, and the path to your computer's ROS workspace, all in the indicated lines of the `.rosrc`. To find your network interface type `nmcli dev status` in your terminal and look for the wireless device name; it usually starts with "w" (e.g. wlan0, wlp3s0).
+
+Also, here are a couple aliases you can add to your computer's `.bashrc`:
+```
+alias sshVOXL="sshpass -p oelinux123 ssh root@192.168.78.<drone-ip-here"
+
+alias sshVOXL-SOFTAP="sshpass -p oelinux123 ssh root@192.168.8.1"
+```
+These aliases only work after you have connected with the normal ssh command once and typed "yes" to add the device to your list of authenticated devices. Dr. Conroy has the full alias that would work on the first try, but it is very long so I didn't feel like typing it all in.
