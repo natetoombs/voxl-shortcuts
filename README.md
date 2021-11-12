@@ -11,12 +11,16 @@ To use these aliases, you will want to add the following to the `.bashrc` in the
 This will allow you use any of the aliases in the file, take a look to see what they are. To use an alias, just run the alias in the terminal.
 
 ### ROS Things
-Since (almost -- see VOXL_MPA_TO_ROS) everything ROS related is done in the docker image, you need to source the ROS items from the docker. To make things simple, once you are in the docker image (use alias `dock`), then source the `.dockrc` file in the yoctohome (`source ~/yoctohome/.dockrc`). This will set your `ROS_IP` address and `ROS_MASTER_URI` to your current IP address, and will source ROS Kinetic and your workspace (make sure to change the `.dockrc` to source your workspace.
+Since (almost -- see VOXL_MPA_TO_ROS) everything ROS related is done in the docker image, you need to source the ROS items from the docker. To make things simple, each time you are in the docker image (use alias `dock`), then source the `.dockrc` file in the yoctohome (`source ~/yoctohome/.dockrc`). This will set your `ROS_IP` address and `ROS_MASTER_URI` to your current IP address, and will source ROS Kinetic and your workspace (make sure to change the `.dockrc` to source your workspace.
 
 One other change to make: change the run_mavros.sh file by commenting out the `source ros_environment.sh` line and adding `source ~/yoctohome/.dockrc`. This will make sure that MAVROS has the right files sourced.
 
 #### Run MAVROS on Boot
-Add the following line to `/etc/modalai/docker-autorun-script.sh` file, then run `systemctl enable docker-autorun`.
+Add the following line to `/etc/modalai/docker-autorun-script.sh` file:
+
+```voxl-docker -n -i roskinetic-xenial:v1.0 -w /root/yoctohome/mavros_test/ -e "/bin/bash run_mavros.sh"```
+
+then run `systemctl enable docker-autorun`.
 
 #### VOXL_MPA_TO_ROS
 I think this is the only ROS-related thing we run outside of the docker image. To get the camera data published to ROS topics, run `roslaunch voxl_mpa_to_ros voxl_mpa_to_ros.launch’ 
@@ -37,8 +41,8 @@ To use the `.rosrc`, you will need to add some of your computer information. You
 
 Also, here are a couple aliases you can add to your computer's `.bashrc`:
 ```
-alias sshVOXL="sshpass -p oelinux123 ssh root@192.168.78.<drone-ip-here"
+alias sshVOXL="sshpass -p oelinux123 ssh root@192.168.78.<drone-ip-here>"
 
 alias sshVOXL-SOFTAP="sshpass -p oelinux123 ssh root@192.168.8.1"
 ```
-These aliases only work after you have connected with the normal ssh command once and typed "yes" to add the device to your list of authenticated devices. Dr. Conroy has the full alias that would work on the first try, but it is very long so I didn't feel like typing it all in.
+These aliases only work after you have connected with the normal ssh command once and typed "yes" to add the device to your list of authenticated devices. Dr. Conroy has the full alias that would work on the first try, but it is very long so I didn't feel like typing it all in. Also, you will need to have installed sshpass (`sudo apt install sshpass`).
